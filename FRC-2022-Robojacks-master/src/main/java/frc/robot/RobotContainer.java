@@ -106,8 +106,8 @@ public class RobotContainer {
     configureButtonBindings();
 
     // default to running moveArm and manualDrive
-    climb.setDefaultCommand(moveArm);
     rDrive.setDefaultCommand(manualDrive);
+    climb.setDefaultCommand(moveArm);
 
   }
 
@@ -122,8 +122,8 @@ public class RobotContainer {
     .whenPressed(new InstantCommand (() -> climb.reaching(true)));
 
     // shoots when Y is pressed
-    new JoystickButton(xbox, kY.value)
-    .whenPressed(shoot);
+    //new JoystickButton(xbox, kY.value)
+    //.whenPressed(shoot);
 
   }
 

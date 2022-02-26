@@ -24,7 +24,6 @@ public class Climb extends SubsystemBase {
   // add a motor for lift
   private CANSparkMax liftMotor = new CANSparkMax(liftPort, MotorType.kBrushless);
 
-
   public Climb () {
 
   }
