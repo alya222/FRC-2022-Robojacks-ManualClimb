@@ -46,6 +46,11 @@ public class RevDrivetrain extends SubsystemBase {
     return deadbandreturn;
   }
 
+  public void stopDriveMotors() {
+    LFrontWheel.set(0);
+    RFrontWheel.set(0);
+  }
+
   public DifferentialDrive getDifferentialDrive() {
     return roboDrive;
   }
@@ -53,4 +58,5 @@ public class RevDrivetrain extends SubsystemBase {
   @Override
   public void periodic() {
   }
+  // right side moves back when lift motor down is pressed
 }
