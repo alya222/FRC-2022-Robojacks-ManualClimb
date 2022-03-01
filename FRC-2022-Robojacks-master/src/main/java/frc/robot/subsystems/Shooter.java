@@ -21,7 +21,6 @@ public class Shooter extends SubsystemBase {
   // add a motor for shooter
   private CANSparkMax shooterMotor = new CANSparkMax(shooterMotorPort, MotorType.kBrushless);
 
-
   /** Creates a new Shooter. */
   public Shooter() {
   }

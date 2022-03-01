@@ -30,6 +30,7 @@ public class RevDrivetrain extends SubsystemBase {
     
     LRearWheel.follow(LFrontWheel);
     RRearWheel.follow(RFrontWheel);
+    
     RFrontWheel.setInverted(true);
   }
 
@@ -54,7 +55,7 @@ public class RevDrivetrain extends SubsystemBase {
   public DifferentialDrive getDifferentialDrive() {
     return roboDrive;
   }
-  
+
   @Override
   public void periodic() {
   }

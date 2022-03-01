@@ -24,8 +24,6 @@ public class Climb extends SubsystemBase {
   // add a motor for lift
   private CANSparkMax liftMotor = new CANSparkMax(liftPort, MotorType.kBrushless);
 
-  double liftSpeed = liftMotor.get();
-
   public Climb () {
 
   }
@@ -40,17 +38,10 @@ public class Climb extends SubsystemBase {
     rightClimbPiston.set(pistonReach);
     leftClimbPiston.set(pistonReach);
   }
-
-  public boolean liftMoving () {
-      if (liftSpeed != 0) {
-        return true;
-      } else {
-        return false;
-      }
-  }
    
   @Override
-  public void periodic() {
+  public void periodic(
+  ) {
     // This method will be called once per scheduler run
   }
 

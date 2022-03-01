@@ -59,6 +59,6 @@ public final class Constants {
     public static final double shooterSpeed = 0.8;
 
     // speed of autonomous backing up in percent
-    public static final double autoDriveSpeed = -0.4;
+    public static final double autoDriveSpeed = 0.4;
     
 }

@@ -15,7 +15,6 @@ import static edu.wpi.first.wpilibj.XboxController.Button.*;
 
 // import commands
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -43,9 +42,10 @@ public class RobotContainer {
   // drive subsystem
   private final RevDrivetrain rDrive = new RevDrivetrain();
 
-  // climbAuto subsystem
+  // climb subsystem
   private final Climb climb = new Climb();
 
+  // shooter subsystem
   private final Shooter shooter = new Shooter();
 
   
@@ -66,7 +66,7 @@ public class RobotContainer {
 
     // drive backwards at 50% speed for 5 seconds
     .andThen(new RunCommand(() -> rDrive.getDifferentialDrive()
-    .tankDrive(autoDriveSpeed, autoDriveSpeed),rDrive).withTimeout(5))
+    .tankDrive(autoDriveSpeed, autoDriveSpeed), rDrive).withTimeout(5))
 
   );
 
@@ -84,7 +84,7 @@ public class RobotContainer {
     new RunCommand (() -> shooter.runShootMotor(0)).withTimeout(0.0005)
   );
 
-  // ORIGINAL drives the robot using joysticks
+  // drives the robot using joysticks
   private Command manualDrive = new RunCommand(
     
     () -> rDrive.getDifferentialDrive().
@@ -94,25 +94,11 @@ public class RobotContainer {
     ),
     rDrive
     );
-  //tested - displayed as "no robot code"
-  // drives the robot using joysticks if the lift is NOT moving (onFalse)
-  // otherwise it does nothing (onTrue)
-  /*private Command manualDrive = new ConditionalCommand(
-    new InstantCommand(), 
-    
-    new RunCommand(() -> rDrive.getDifferentialDrive().
-    tankDrive(rDrive.deadband(xbox.getRawAxis(kLeftY.value), percentDeadband), 
-    rDrive.deadband(xbox.getRawAxis(kRightY.value), percentDeadband),
-    false
-    ),
-    rDrive), 
-    
-    climb::liftMoving);*/
 
-  // ORIGINAL move the lift up and down with right and left triggers, respectively
+  // move the lift up and down with right and left triggers, respectively
   private Command moveArm = new RunCommand(
   
-    () -> climb.move(xbox.getRawAxis(kRightTrigger.value) 
+    () -> climb.move(xbox.getRawAxis(kRightTrigger.value)
       - xbox.getRawAxis(kLeftTrigger.value)), climb);
 
   public RobotContainer() {
@@ -121,8 +107,8 @@ public class RobotContainer {
     configureButtonBindings();
 
     // default to running moveArm and manualDrive
-    climb.setDefaultCommand(moveArm);
     rDrive.setDefaultCommand(manualDrive);
+    climb.setDefaultCommand(moveArm);
   }
 
   private void configureButtonBindings() {
@@ -135,20 +121,16 @@ public class RobotContainer {
     new JoystickButton(xbox, kRightBumper.value)
     .whenPressed(new InstantCommand (() -> climb.reaching(true)));
 
-    /*//--- tested - was unsuccessful - no difference in
-    // stops drive motors while triggers are held
-    new JoystickButton(xbox, kLeftTrigger.value)
-    .whileHeld(new RunCommand (() -> rDrive.stopDriveMotors()));
-
-    new JoystickButton(xbox, kRightTrigger.value)
-    .whileHeld(new RunCommand (() -> rDrive.stopDriveMotors()));*/
-
     // shoots when Y is pressed
     //new JoystickButton(xbox, kY.value)
     //.whenPressed(shoot);
 
   }
 
+  public void periodic() {
+    rDrive.periodic();
+  }
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
