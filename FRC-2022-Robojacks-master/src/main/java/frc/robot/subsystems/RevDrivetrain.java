@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -27,11 +28,28 @@ public class RevDrivetrain extends SubsystemBase {
   private DifferentialDrive roboDrive = new DifferentialDrive(LFrontWheel, RFrontWheel);
 
   public RevDrivetrain() {
-    
-    LRearWheel.follow(LFrontWheel);
-    RRearWheel.follow(RFrontWheel);
-    
+
+    LFrontWheel.restoreFactoryDefaults();
+    LFrontWheel.setIdleMode(IdleMode.kBrake);
+    LFrontWheel.burnFlash();
+
+    RFrontWheel.restoreFactoryDefaults();
+    RFrontWheel.setIdleMode(IdleMode.kBrake);
     RFrontWheel.setInverted(true);
+    RFrontWheel.burnFlash();
+
+    LRearWheel.restoreFactoryDefaults();
+    LRearWheel.setIdleMode(IdleMode.kBrake);
+    LRearWheel.follow(LFrontWheel);
+    LRearWheel.burnFlash();
+    
+
+    RRearWheel.restoreFactoryDefaults();
+    RRearWheel.setIdleMode(IdleMode.kBrake);
+    RRearWheel.follow(RFrontWheel);
+    RRearWheel.burnFlash();
+    
+    
   }
 
   public double deadband(double JoystickValue, double DeadbandCutOff) {
@@ -58,6 +76,11 @@ public class RevDrivetrain extends SubsystemBase {
 
   @Override
   public void periodic() {
+    roboDrive.feed();
+  }
+
+  public void my_DriveTank(double leftSpeed, double rightSpeed){
+    roboDrive.tankDrive(leftSpeed, rightSpeed,true);
   }
   // right side moves back when lift motor down is pressed
 }

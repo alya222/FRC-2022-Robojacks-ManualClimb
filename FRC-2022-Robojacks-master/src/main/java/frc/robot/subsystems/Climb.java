@@ -4,8 +4,10 @@
 
 package frc.robot.subsystems;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 // import information on CANSparkMAx motor controller
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 // import information from other files
@@ -25,7 +27,9 @@ public class Climb extends SubsystemBase {
   private CANSparkMax liftMotor = new CANSparkMax(liftPort, MotorType.kBrushless);
 
   public Climb () {
-
+    liftMotor.restoreFactoryDefaults();
+    liftMotor.setIdleMode(IdleMode.kBrake);
+    liftMotor.burnFlash();
   }
 
   // add a method that moves lift up

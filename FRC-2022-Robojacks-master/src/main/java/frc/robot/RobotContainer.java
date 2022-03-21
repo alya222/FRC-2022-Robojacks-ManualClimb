@@ -9,6 +9,8 @@ package frc.robot;
 
 // import Xbox Controller and related buttons and axes
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import static edu.wpi.first.wpilibj.XboxController.Axis.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import static edu.wpi.first.wpilibj.XboxController.Button.*;
@@ -18,6 +20,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Commands.Climber_Run;
+import frc.robot.Commands.Drive_With_Joysticks;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Shooter;
 
@@ -51,6 +55,7 @@ public class RobotContainer {
   
   private SequentialCommandGroup shootThenGo = new SequentialCommandGroup(
     
+  /*
     // shoot the cargo into the goal
     new RunCommand (() -> shooter.runShootMotor(shooterSpeed/2))
     .withTimeout(shooterWaitTime),
@@ -62,18 +67,20 @@ public class RobotContainer {
     
     new InstantCommand(()-> shooter.setShootPiston(false)),
     
-    new RunCommand (() -> shooter.runShootMotor(0)).withTimeout(0.0005)
+    new RunCommand (() -> shooter.runShootMotor(0)).withTimeout(0.0005) */
 
     // drive backwards at 50% speed for 5 seconds
-    .andThen(new RunCommand(() -> rDrive.getDifferentialDrive()
+    //.andThen
+    (new RunCommand(() -> rDrive.getDifferentialDrive()
     .tankDrive(autoDriveSpeed, autoDriveSpeed), rDrive).withTimeout(5))
 
   );
 
   private SequentialCommandGroup shoot = new SequentialCommandGroup(
-    new RunCommand (() -> shooter.runShootMotor(shooterSpeed/2))
-    .withTimeout(shooterWaitTime),
     
+    new RunCommand (() -> shooter.runShootMotor(shooterSpeed))
+    .withTimeout(shooterWaitTime),
+
     new InstantCommand(()-> shooter.setShootPiston(true)),
     
     new RunCommand(() -> shooter.runShootMotor(shooterSpeed))
@@ -103,12 +110,19 @@ public class RobotContainer {
 
   public RobotContainer() {
 
+    SmartDashboard.putData(rDrive);
+    SmartDashboard.putData(climb);
+
     // configure the button bindings
     configureButtonBindings();
 
     // default to running moveArm and manualDrive
     rDrive.setDefaultCommand(manualDrive);
+    //rDrive.setDefaultCommand(new Drive_With_Joysticks(() -> xbox.getRawAxis(XboxController.Axis.kLeftY.value), 
+      //                                                () -> xbox.getRawAxis(XboxController.Axis.kRightY.value), 
+        //                                              rDrive));
     climb.setDefaultCommand(moveArm);
+    //climb.setDefaultCommand(new Climber_Run(xbox,climb));
   }
 
   private void configureButtonBindings() {

@@ -10,31 +10,35 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.*;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 
 public class Shooter extends SubsystemBase {
 
   // add a piston for shooter
-  private Solenoid shooterPiston = new Solenoid(compressorModule, shooterPistonPort);
+  //private Solenoid shooterPiston = new Solenoid(compressorModule, shooterPistonPort);
 
   // add a motor for shooter
-  private CANSparkMax shooterMotor = new CANSparkMax(shooterMotorPort, MotorType.kBrushless);
+  // CANSparkMax shooterMotor = new CANSparkMax(shooterMotorPort, MotorType.kBrushless);
 
   /** Creates a new Shooter. */
   public Shooter() {
+  /*   shooterMotor.restoreFactoryDefaults();
+    shooterMotor.setIdleMode(IdleMode.kCoast);
+    shooterMotor.burnFlash(); */
   }
 
   public void setShootPiston(boolean shoot) {
-      shooterPiston.set(shoot);
+     // shooterPiston.set(shoot);
   }
 
   public boolean shootPistonExtended() {
-    return shooterPiston.get();
+    return false;//shooterPiston.get();
   }
 
   public void runShootMotor (double speed) {
-    shooterMotor.set(speed);
+    //shooterMotor.set(speed);
   }
 
   @Override
